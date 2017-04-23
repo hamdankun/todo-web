@@ -13,11 +13,77 @@ body {
 
 .todo-footer {
   text-align: center;
+  height: 40px;
+}
+
+.fixed-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 .btn-login {
   display: block;
   width: 100%;
+}
+
+.margin-top-small {
+  margin-top: 10px;
+}
+
+.margin-left-small {
+  margin-left: 10px !important;
+}
+
+.todo-empty {
+  width: 40%;
+  text-align: center;
+}
+
+.todo-empty .material-icons {
+  display: block;
+  width: 100%;
+}
+
+
+
+.centered-content {
+  display: -webkit-box;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.todo-progressbar {
+  position: absolute;
+  width: 100%;
+  padding:0;
+  margin:0;
+}
+
+.todo-progressbar .todo-progressbar-col {
+  padding: 0;
+  margin: 0;
+}
+
+.todo-progressbar .todo-progressbar-col .progress {
+  margin: 0 !important
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.todo-modal {
+  z-index: 1003;
+  display: none;
+  opacity: 0;
+  transform: scaleX(0.7);
+  top: 4%;
 }
 
 @media only screen and (max-width:768px) {

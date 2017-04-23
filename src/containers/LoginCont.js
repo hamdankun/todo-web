@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { Row, Input, Button } from 'react-materialize';
 import Base from '../components/layouts/Base';
-import { onDoAuth, onSuccessAuth, onErrorAuth } from '../actions/auth';
+import { Alert } from '../components/layouts/Components';
+import { onDoAuth, onSuccessAuth, onErrorAuth, onHideAlert } from '../actions/auth';
 
 
 class LoginCont extends Component {
@@ -16,7 +18,8 @@ class LoginCont extends Component {
       email: '',
       password: '',
       validEmail: true,
-      validPassword: true
+      validPassword: true,
+      statusCode: 503
     }
   }
 
@@ -51,7 +54,7 @@ class LoginCont extends Component {
   }
 
   auth(credentials) {
-    console.log(axios({
+    axios({
       url: 'http://kunapi.esy.es/api/v1/auth',
       method: 'POST',
       data: credentials,
@@ -62,7 +65,20 @@ class LoginCont extends Component {
     })
     .catch((error) => {
       this.props.dispatch(onErrorAuth(error.response.data));
-    }));
+      setTimeout(function () {
+        this.props.dispatch(onHideAlert());
+      }.bind(this), 5000);
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.data.code === 401) {
+      this.setState({ statusCode: 401 });
+    } else if(nextProps.auth.data.code === 200) {
+      this.setState({ statusCode: 200 });
+    } else {
+      this.setState({ statusCode: 503 });
+    }
   }
 
   componentDidMount() {
@@ -70,9 +86,17 @@ class LoginCont extends Component {
   }
 
   render() {
+    if (this.state.statusCode === 200) {
+      return ( <Redirect to={{
+          pathname: '/home',
+          state: { from: 'login' }
+        }}/> )
+    }
+
     return (<Base>
         <form onSubmit={this.handleSubmit}>
-          <Row className="todo-login-wrapper">
+            <Row className="todo-login-wrapper">
+              { this.state.statusCode === 401 ? <Alert message="Login Fail, Your Username or password was incorrect" color="red"/> : '' }
               <Input type="email" name="email" label="Email" s={12} onChange={this.handleChange} className={this.state.validEmail ? '' : 'invalid'} autoComplete="off"/>
               <Input type="password" name="password" label="password" s={12} onChange={this.handleChange} className={this.state.validPassword ? '' : 'invalid'}/>
               <div>

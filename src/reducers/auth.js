@@ -1,4 +1,4 @@
-import * as types from '../actions/auth-const';
+import * as types from '../constant/auth-const';
 
 export const auth = (state = {
   isLoading: false,
@@ -13,6 +13,9 @@ export const auth = (state = {
       break;
     case types.LOGIN_SUCCESS:
       state = {...state, isLoading: false, data: action.data};
+      break;
+    case types.HIDE_ALERT:
+      state = {...state, isLoading: false, data: []};
       break;
     default:
       state = {...state};
