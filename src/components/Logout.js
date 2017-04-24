@@ -5,7 +5,7 @@ class Logout extends Component {
 
   constructor(props) {
     super(props);
-    localStorage.removeItem('token');
+    localStorage.removeItem('credentails');
   }
 
   render() {

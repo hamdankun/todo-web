@@ -88,7 +88,7 @@ class LoginCont extends Component {
   render() {
     if (this.state.statusCode === 200) {
       return ( <Redirect to={{
-          pathname: '/home',
+          pathname: '/todo/list',
           state: { from: 'login' }
         }}/> )
     }

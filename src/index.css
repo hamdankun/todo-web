@@ -28,11 +28,15 @@ body {
 }
 
 .margin-top-small {
-  margin-top: 10px;
+  margin-top: 10px !important;
 }
 
 .margin-left-small {
   margin-left: 10px !important;
+}
+
+.margin-bottom-small {
+  margin-bottom: 10px !important;
 }
 
 .todo-empty {

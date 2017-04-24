@@ -9,7 +9,11 @@ export const onErrorAuth = (response) => {
 }
 
 export const onSuccessAuth = (response) => {
-  localStorage.setItem('token', response.data.token);
+  let credentails = {
+    token: response.data.token,
+    created_at: new Date().getTime()
+  }
+  localStorage.setItem('credentails', JSON.stringify(credentails));
   return { type: types.LOGIN_SUCCESS, data: response }
 }
 

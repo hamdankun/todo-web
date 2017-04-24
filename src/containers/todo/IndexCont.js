@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Row, Col, Card, Preloader, Icon, Pagination } from 'react-materialize';
-import Base from '../components/layouts/Base';
-import { onProsessingData, onProsessedData } from '../actions/todo';
+import Base from '../../components/layouts/Base';
+import moment from 'moment';
+import { onProsessingData, onProsessedData } from '../../actions/todo';
 
 const List = (props) => {
   const { todo, eventHandler } = props;
   return (
     <Col m={6} s={16}>
       <Card className='blue-grey darken-1' textClassName='white-text' title={todo.title}
-      actions={[<a className="pointer" onClick={() => eventHandler.onEdit(todo.id) }>Edit</a>, <a className="pointer" onClick={() =>  eventHandler.onDelete(todo.id) }>Delete</a>]}>
-      {todo.description}
+      actions={[<Link className="pointer" to={`/todo/edit/${todo.id}`}>Edit</Link>, <a className="pointer" onClick={() =>  eventHandler.onDelete(todo.id) }>Delete</a>]}>
+      {todo.description} {'Due Date: '+moment(todo.date).format('DD/MM/YYYY') }
       </Card>
     </Col>
   )
@@ -38,7 +40,7 @@ const PageLoader = () => (
   </Row>
 )
 
-class HomeCont extends Component {
+class IndexCont extends Component {
 
   constructor(props) {
     super(props);
@@ -66,9 +68,10 @@ class HomeCont extends Component {
   }
 
   http() {
+    let credentails = JSON.parse(localStorage.getItem('credentails'));
     return axios.create({
       baseURL: 'http://kunapi.esy.es/api/v1',
-      headers: { 'Authorization': localStorage.getItem('token') }
+      headers: { 'Authorization': credentails.token }
     });
   }
 
@@ -126,8 +129,8 @@ const mapStateToProps = (state, todo) => ({
   todo: state.todo
 })
 
-HomeCont = connect(
+IndexCont = connect(
   mapStateToProps
-)(HomeCont);
+)(IndexCont);
 
-export default HomeCont;
+export default IndexCont;
